@@ -8,7 +8,7 @@ import (
 	storetypes "cosmossdk.io/core/store"
 	"github.com/cosmos/cosmos-sdk/codec"
 
-	"github.com/cosmosregistry/example"
+	"github.com/sonrhq/service"
 )
 
 type Keeper struct {
@@ -21,7 +21,7 @@ type Keeper struct {
 
 	// state management
 	Schema  collections.Schema
-	Params  collections.Item[example.Params]
+	Params  collections.Item[service.Params]
 	Counter collections.Map[string, uint64]
 }
 
@@ -36,8 +36,8 @@ func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService s
 		cdc:          cdc,
 		addressCodec: addressCodec,
 		authority:    authority,
-		Params:       collections.NewItem(sb, example.ParamsKey, "params", codec.CollValue[example.Params](cdc)),
-		Counter:      collections.NewMap(sb, example.CounterKey, "counter", collections.StringKey, collections.Uint64Value),
+		Params:       collections.NewItem(sb, service.ParamsKey, "params", codec.CollValue[service.Params](cdc)),
+		Counter:      collections.NewMap(sb, service.CounterKey, "counter", collections.StringKey, collections.Uint64Value),
 	}
 
 	schema, err := sb.Build()

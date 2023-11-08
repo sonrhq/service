@@ -13,7 +13,7 @@ import (
 	_ "github.com/cosmos/cosmos-sdk/x/genutil"
 	_ "github.com/cosmos/cosmos-sdk/x/mint"
 	_ "github.com/cosmos/cosmos-sdk/x/staking"
-	_ "github.com/cosmosregistry/example/module"
+	_ "github.com/sonrhq/service/module"
 
 	appv1alpha1 "cosmossdk.io/api/cosmos/app/v1alpha1"
 	"cosmossdk.io/core/appconfig"
@@ -22,17 +22,17 @@ import (
 	"github.com/cosmos/cosmos-sdk/testutil/configurator"
 	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
 
-	"github.com/cosmosregistry/example"
-	examplemodulev1 "github.com/cosmosregistry/example/api/module/v1"
-	"github.com/cosmosregistry/example/keeper"
+	"github.com/sonrhq/service"
+	servicemodulev1 "github.com/sonrhq/service/api/module/v1"
+	"github.com/sonrhq/service/keeper"
 )
 
-// ExampleModule is a configurator.ModuleOption that add the example module to the app config.
+// ExampleModule is a configurator.ModuleOption that add the service module to the app config.
 var ExampleModule = func() configurator.ModuleOption {
 	return func(config *configurator.Config) {
-		config.ModuleConfigs[example.ModuleName] = &appv1alpha1.ModuleConfig{
-			Name:   example.ModuleName,
-			Config: appconfig.WrapAny(&examplemodulev1.Module{}),
+		config.ModuleConfigs[service.ModuleName] = &appv1alpha1.ModuleConfig{
+			Name:   service.ModuleName,
+			Config: appconfig.WrapAny(&servicemodulev1.Module{}),
 		}
 	}
 }
@@ -58,7 +58,7 @@ func TestIntegration(t *testing.T) {
 				"mint",
 				"genutil",
 				"consensus",
-				example.ModuleName,
+				service.ModuleName,
 			),
 		),
 		depinject.Supply(logger))

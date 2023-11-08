@@ -1,8 +1,8 @@
-package example
+package service
 
 import "cosmossdk.io/collections"
 
-const ModuleName = "example"
+const ModuleName = "service"
 
 var (
 	ParamsKey  = collections.NewPrefix(0)

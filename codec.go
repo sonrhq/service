@@ -1,4 +1,4 @@
-package example
+package service
 
 import (
 	types "github.com/cosmos/cosmos-sdk/codec/types"

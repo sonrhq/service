@@ -1,4 +1,4 @@
-module github.com/cosmosregistry/example
+module github.com/sonrhq/service
 
 go 1.21
 
