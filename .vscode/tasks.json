@@ -3,10 +3,14 @@
 	"tasks": [
 		{
 			"type": "shell",
-			"label": "make: Protogen",
+			"label": "Generate: Service Proto",
 			"command": "make proto-all",
 			"options": {
 				"cwd": "${workspaceFolder}"
+			},
+			"icon": {
+				"id": "settings-gear",
+				"color": "terminal.ansiRed"
 			},
 			"detail": "Build x/service protobuf files",
 			"problemMatcher": [],
@@ -22,10 +26,14 @@
 		},
 		{
 			"type": "shell",
-			"label": "make: Run Tests",
+			"label": "Test: Service Module",
 			"command": "make test",
 			"options": {
 				"cwd": "${workspaceFolder}"
+			},
+			"icon": {
+				"id": "beaker",
+				"color": "terminal.ansiRed"
 			},
 			"detail": "Run x/service go tests",
 			"problemMatcher": [],
