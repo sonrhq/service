@@ -5,6 +5,10 @@ managed:
     default: github.com/sonrhq/service/api
     override:
       buf.build/cosmos/cosmos-sdk: cosmossdk.io/api
+    except:
+      - buf.build/googleapis/googleapis
+      - buf.build/cosmos/gogo-proto
+      - buf.build/cosmos/cosmos-proto
 plugins:
   - name: go
     out: ..
