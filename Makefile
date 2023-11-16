@@ -30,6 +30,7 @@ proto-all:
 	(cd proto; buf generate)
 	rm -rf ./api
 	mv ./sonrhq/service ./api
+	rm -rf ./sonrhq
 
 .PHONY: proto-all proto-gen proto-format proto-lint
 
