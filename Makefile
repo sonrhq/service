@@ -6,6 +6,13 @@ DOCKER := $(shell which docker)
 ###   Build   ###
 #################
 
+codegen:
+	go install cosmossdk.io/orm/cmd/protoc-gen-go-cosmos-orm@latest
+	go install cosmossdk.io/orm/cmd/protoc-gen-go-cosmos-orm-proto@latest
+	(cd proto; buf generate --template buf.gen.proto.yaml)
+	(cd proto; buf generate)
+
+
 test:
 	@echo "--> Running tests"
 	go test -v ./...

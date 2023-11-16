@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package sonrhq.service.module.v1;
 
+import "cosmos/orm/v1/orm.proto";
+import "cosmos/orm/v1alpha1/schema.proto";
 import "cosmos/app/v1alpha1/module.proto";
 
 // Module is the app config object of the module.
@@ -11,7 +13,42 @@ message Module {
     go_import : "github.com/sonrhq/service"
   };
 
+  option (cosmos.orm.v1alpha1.module_schema) = {
+    schema_file: {id: 1 proto_file_name: "service/module/v1/module.proto"}
+  };
+
   // authority defines the custom module authority.
   // if not set, defaults to the governance module.
   string authority = 1;
+}
+
+message Balance {
+  option (cosmos.orm.v1.table) = {
+    id: 1;
+primary_key: {
+fields:
+  "address,denom"
+}
+index: {
+id:
+  1 fields: "denom"
+}
+};
+
+string address = 1;
+string denom   = 2;
+uint64 amount  = 3;
+}
+
+message Supply {
+  option (cosmos.orm.v1.table) = {
+    id: 2;
+primary_key: {
+fields:
+  "denom"
+}
+};
+
+string denom  = 1;
+uint64 amount = 2;
 }
