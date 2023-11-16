@@ -6,29 +6,43 @@ import (
 	"cosmossdk.io/collections"
 	"cosmossdk.io/core/address"
 	storetypes "cosmossdk.io/core/store"
+	"cosmossdk.io/orm/model/ormdb"
+	"cosmossdk.io/orm/model/ormtable"
 	"github.com/cosmos/cosmos-sdk/codec"
 
 	"github.com/sonrhq/service"
+	modulev1 "github.com/sonrhq/service/api/module/v1"
 )
 
 type Keeper struct {
 	cdc          codec.BinaryCodec
 	addressCodec address.Codec
+	db           modulev1.ModuleStore
 
 	// authority is the address capable of executing a MsgUpdateParams and other authority-gated message.
 	// typically, this should be the x/gov module account.
 	authority string
 
 	// state management
-	Schema  collections.Schema
-	Params  collections.Item[service.Params]
-	Counter collections.Map[string, uint64]
+	ormtable.Schema
+	CollSchema collections.Schema
+	Params     collections.Item[service.Params]
+	Counter    collections.Map[string, uint64]
 }
 
 // NewKeeper creates a new Keeper instance
 func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService storetypes.KVStoreService, authority string) Keeper {
 	if _, err := addressCodec.StringToBytes(authority); err != nil {
 		panic(fmt.Errorf("invalid authority address: %w", err))
+	}
+	db, err := ormdb.NewModuleDB(IdentitySchema, ormdb.ModuleDBOptions{})
+	if err != nil {
+		panic(err)
+	}
+
+	store, err := modulev1.NewModuleStore(db)
+	if err != nil {
+		panic(err)
 	}
 
 	sb := collections.NewSchemaBuilder(storeService)
@@ -38,6 +52,7 @@ func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService s
 		authority:    authority,
 		Params:       collections.NewItem(sb, service.ParamsKey, "params", codec.CollValue[service.Params](cdc)),
 		Counter:      collections.NewMap(sb, service.CounterKey, "counter", collections.StringKey, collections.Uint64Value),
+		db:           store,
 	}
 
 	schema, err := sb.Build()
@@ -45,8 +60,7 @@ func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService s
 		panic(err)
 	}
 
-	k.Schema = schema
-
+	k.CollSchema = schema
 	return k
 }
 
