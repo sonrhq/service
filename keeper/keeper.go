@@ -35,7 +35,7 @@ func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService s
 	if _, err := addressCodec.StringToBytes(authority); err != nil {
 		panic(fmt.Errorf("invalid authority address: %w", err))
 	}
-	db, err := ormdb.NewModuleDB(IdentitySchema, ormdb.ModuleDBOptions{KVStoreService: storeService})
+	db, err := ormdb.NewModuleDB(serviceSchema, ormdb.ModuleDBOptions{KVStoreService: storeService})
 	if err != nil {
 		panic(err)
 	}

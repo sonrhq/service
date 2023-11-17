@@ -255,31 +255,31 @@ func NewSupplyTable(db ormtable.Schema) (SupplyTable, error) {
 	return supplyTable{table}, nil
 }
 
-type ModuleStore interface {
+type StateStore interface {
 	BalanceTable() BalanceTable
 	SupplyTable() SupplyTable
 
 	doNotImplement()
 }
 
-type moduleStore struct {
+type stateStore struct {
 	balance BalanceTable
 	supply  SupplyTable
 }
 
-func (x moduleStore) BalanceTable() BalanceTable {
+func (x stateStore) BalanceTable() BalanceTable {
 	return x.balance
 }
 
-func (x moduleStore) SupplyTable() SupplyTable {
+func (x stateStore) SupplyTable() SupplyTable {
 	return x.supply
 }
 
-func (moduleStore) doNotImplement() {}
+func (stateStore) doNotImplement() {}
 
-var _ ModuleStore = moduleStore{}
+var _ StateStore = stateStore{}
 
-func NewModuleStore(db ormtable.Schema) (ModuleStore, error) {
+func NewStateStore(db ormtable.Schema) (StateStore, error) {
 	balanceTable, err := NewBalanceTable(db)
 	if err != nil {
 		return nil, err
@@ -290,7 +290,7 @@ func NewModuleStore(db ormtable.Schema) (ModuleStore, error) {
 		return nil, err
 	}
 
-	return moduleStore{
+	return stateStore{
 		balanceTable,
 		supplyTable,
 	}, nil

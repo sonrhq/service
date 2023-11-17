@@ -9,8 +9,8 @@ import (
 	modulev1 "github.com/sonrhq/service/api/module/v1"
 )
 
-
-var IdentitySchema = &ormv1alpha1.ModuleSchemaDescriptor{
+// serviceSchema is the schema for the service module.
+var serviceSchema = &ormv1alpha1.ModuleSchemaDescriptor{
 	SchemaFile: []*ormv1alpha1.ModuleSchemaDescriptor_FileEntry{
 		{
 			Id:            1,
