@@ -2,17 +2,50 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "go",
-			"label": "go: Test Service Package",
-			"command": "build",
-			"args": [
-				"${fileDirname}"
-			],
-			"problemMatcher": [
-				"$go"
-			],
-			"group": "build",
-			"detail": "cd ~/Sonr/service && go test ./..."
-		}
+			"type": "shell",
+			"label": "Generate: Service Proto",
+			"command": "make proto-all",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"icon": {
+				"id": "settings-gear",
+				"color": "terminal.ansiRed"
+			},
+			"detail": "Build x/service protobuf files",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"revealProblems": "onProblem",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"group": "chain"
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Test: Service Module",
+			"command": "make test",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"icon": {
+				"id": "beaker",
+				"color": "terminal.ansiRed"
+			},
+			"detail": "Run x/service go tests",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"revealProblems": "onProblem",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"group": "chain"
+			}
+		},
 	]
 }
