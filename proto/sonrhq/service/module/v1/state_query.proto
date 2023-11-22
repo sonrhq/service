@@ -42,8 +42,7 @@ message ListBalanceRequest {
       // denom specifies the value of the Denom index key to use in the query.
       Denom denom = 2;
     }
-
-    // AddressDenom specifies the value of the AddressDenom index key to use in the query.
+    
     message AddressDenom {
       // address is the value of the address field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
@@ -52,15 +51,14 @@ message ListBalanceRequest {
       // It can be omitted to query for all valid values of that field in this segment of the index.
       optional string denom = 2;
     }
-
-    // Denom specifies the value of the Denom index key to use in the query.
+    
     message Denom {
       // denom is the value of the denom field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
       optional string denom = 1;
     }
   }
-
+  
   // query specifies the type of query - either a prefix or range query.
   oneof query {
     // prefix_query specifies the index key value to use for the prefix query.
@@ -70,7 +68,7 @@ message ListBalanceRequest {
   }
   // pagination specifies optional pagination parameters.
   cosmos.base.query.v1beta1.PageRequest pagination = 3;
-
+  
   // RangeQuery specifies the from/to index keys for a range query.
   message RangeQuery {
     // from is the index key to use for the start of the range query.
@@ -112,15 +110,14 @@ message ListSupplyRequest {
       // denom specifies the value of the Denom index key to use in the query.
       Denom denom = 1;
     }
-
-    // Denom specifies the value of the Denom index key to use in the query.
+    
     message Denom {
       // denom is the value of the denom field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
       optional string denom = 1;
     }
   }
-
+  
   // query specifies the type of query - either a prefix or range query.
   oneof query {
     // prefix_query specifies the index key value to use for the prefix query.
@@ -130,7 +127,7 @@ message ListSupplyRequest {
   }
   // pagination specifies optional pagination parameters.
   cosmos.base.query.v1beta1.PageRequest pagination = 3;
-
+  
   // RangeQuery specifies the from/to index keys for a range query.
   message RangeQuery {
     // from is the index key to use for the start of the range query.
