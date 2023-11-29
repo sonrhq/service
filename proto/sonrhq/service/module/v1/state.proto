@@ -16,8 +16,8 @@ message State {
   };
 }
 
-// Balance is the balance of an account.
-message Balance {
+// ServiceRecord is the balance of an account.
+message ServiceRecord {
   option (cosmos.orm.v1.table) = {
     id: 1
     primary_key: {fields: "address,denom"}
@@ -32,8 +32,8 @@ message Balance {
   uint64 amount = 3;
 }
 
-// Supply is the total supply of the module.
-message Supply {
+// Organization is the total supply of the module.
+message Organization {
   option (cosmos.orm.v1.table) = {
     id: 2
     primary_key: {fields: "denom"}

@@ -12,7 +12,7 @@ import (
 
 // PublicKeyMultibase returns the public key in multibase format
 func (c *Credential) PubKey() *crypto.PubKey {
-	return crypto.NewEd25519PubKey(c.PublicKey)
+	return crypto.NewEd25519PubKey(c.PublicKey).ToProto()
 }
 
 // CredentialFromDIDString converts a DID string into a Credential
