@@ -56,6 +56,14 @@ type StateQueryServiceClient interface {
 	GetPropertyBySchemaOwnerKey(ctx context.Context, in *GetPropertyBySchemaOwnerKeyRequest, opts ...grpc.CallOption) (*GetPropertyBySchemaOwnerKeyResponse, error)
 	// ListProperty queries the Property table using prefix and range queries against defined indexes.
 	ListProperty(ctx context.Context, in *ListPropertyRequest, opts ...grpc.CallOption) (*ListPropertyResponse, error)
+	// GetBaseParams queries the BaseParams singleton.
+	GetBaseParams(ctx context.Context, in *GetBaseParamsRequest, opts ...grpc.CallOption) (*GetBaseParamsResponse, error)
+	// GetReadParams queries the ReadParams singleton.
+	GetReadParams(ctx context.Context, in *GetReadParamsRequest, opts ...grpc.CallOption) (*GetReadParamsResponse, error)
+	// GetWriteParams queries the WriteParams singleton.
+	GetWriteParams(ctx context.Context, in *GetWriteParamsRequest, opts ...grpc.CallOption) (*GetWriteParamsResponse, error)
+	// GetOwnParams queries the OwnParams singleton.
+	GetOwnParams(ctx context.Context, in *GetOwnParamsRequest, opts ...grpc.CallOption) (*GetOwnParamsResponse, error)
 }
 
 type stateQueryServiceClient struct {
@@ -237,6 +245,42 @@ func (c *stateQueryServiceClient) ListProperty(ctx context.Context, in *ListProp
 	return out, nil
 }
 
+func (c *stateQueryServiceClient) GetBaseParams(ctx context.Context, in *GetBaseParamsRequest, opts ...grpc.CallOption) (*GetBaseParamsResponse, error) {
+	out := new(GetBaseParamsResponse)
+	err := c.cc.Invoke(ctx, "/sonrhq.service.module.v1.StateQueryService/GetBaseParams", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stateQueryServiceClient) GetReadParams(ctx context.Context, in *GetReadParamsRequest, opts ...grpc.CallOption) (*GetReadParamsResponse, error) {
+	out := new(GetReadParamsResponse)
+	err := c.cc.Invoke(ctx, "/sonrhq.service.module.v1.StateQueryService/GetReadParams", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stateQueryServiceClient) GetWriteParams(ctx context.Context, in *GetWriteParamsRequest, opts ...grpc.CallOption) (*GetWriteParamsResponse, error) {
+	out := new(GetWriteParamsResponse)
+	err := c.cc.Invoke(ctx, "/sonrhq.service.module.v1.StateQueryService/GetWriteParams", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stateQueryServiceClient) GetOwnParams(ctx context.Context, in *GetOwnParamsRequest, opts ...grpc.CallOption) (*GetOwnParamsResponse, error) {
+	out := new(GetOwnParamsResponse)
+	err := c.cc.Invoke(ctx, "/sonrhq.service.module.v1.StateQueryService/GetOwnParams", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StateQueryServiceServer is the server API for StateQueryService service.
 // All implementations must embed UnimplementedStateQueryServiceServer
 // for forward compatibility
@@ -279,6 +323,14 @@ type StateQueryServiceServer interface {
 	GetPropertyBySchemaOwnerKey(context.Context, *GetPropertyBySchemaOwnerKeyRequest) (*GetPropertyBySchemaOwnerKeyResponse, error)
 	// ListProperty queries the Property table using prefix and range queries against defined indexes.
 	ListProperty(context.Context, *ListPropertyRequest) (*ListPropertyResponse, error)
+	// GetBaseParams queries the BaseParams singleton.
+	GetBaseParams(context.Context, *GetBaseParamsRequest) (*GetBaseParamsResponse, error)
+	// GetReadParams queries the ReadParams singleton.
+	GetReadParams(context.Context, *GetReadParamsRequest) (*GetReadParamsResponse, error)
+	// GetWriteParams queries the WriteParams singleton.
+	GetWriteParams(context.Context, *GetWriteParamsRequest) (*GetWriteParamsResponse, error)
+	// GetOwnParams queries the OwnParams singleton.
+	GetOwnParams(context.Context, *GetOwnParamsRequest) (*GetOwnParamsResponse, error)
 	mustEmbedUnimplementedStateQueryServiceServer()
 }
 
@@ -342,6 +394,18 @@ func (UnimplementedStateQueryServiceServer) GetPropertyBySchemaOwnerKey(context.
 }
 func (UnimplementedStateQueryServiceServer) ListProperty(context.Context, *ListPropertyRequest) (*ListPropertyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListProperty not implemented")
+}
+func (UnimplementedStateQueryServiceServer) GetBaseParams(context.Context, *GetBaseParamsRequest) (*GetBaseParamsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBaseParams not implemented")
+}
+func (UnimplementedStateQueryServiceServer) GetReadParams(context.Context, *GetReadParamsRequest) (*GetReadParamsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetReadParams not implemented")
+}
+func (UnimplementedStateQueryServiceServer) GetWriteParams(context.Context, *GetWriteParamsRequest) (*GetWriteParamsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWriteParams not implemented")
+}
+func (UnimplementedStateQueryServiceServer) GetOwnParams(context.Context, *GetOwnParamsRequest) (*GetOwnParamsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOwnParams not implemented")
 }
 func (UnimplementedStateQueryServiceServer) mustEmbedUnimplementedStateQueryServiceServer() {}
 
@@ -698,6 +762,78 @@ func _StateQueryService_ListProperty_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StateQueryService_GetBaseParams_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBaseParamsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateQueryServiceServer).GetBaseParams(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sonrhq.service.module.v1.StateQueryService/GetBaseParams",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateQueryServiceServer).GetBaseParams(ctx, req.(*GetBaseParamsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StateQueryService_GetReadParams_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetReadParamsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateQueryServiceServer).GetReadParams(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sonrhq.service.module.v1.StateQueryService/GetReadParams",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateQueryServiceServer).GetReadParams(ctx, req.(*GetReadParamsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StateQueryService_GetWriteParams_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWriteParamsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateQueryServiceServer).GetWriteParams(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sonrhq.service.module.v1.StateQueryService/GetWriteParams",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateQueryServiceServer).GetWriteParams(ctx, req.(*GetWriteParamsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StateQueryService_GetOwnParams_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOwnParamsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateQueryServiceServer).GetOwnParams(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sonrhq.service.module.v1.StateQueryService/GetOwnParams",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateQueryServiceServer).GetOwnParams(ctx, req.(*GetOwnParamsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StateQueryService_ServiceDesc is the grpc.ServiceDesc for StateQueryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -780,6 +916,22 @@ var StateQueryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListProperty",
 			Handler:    _StateQueryService_ListProperty_Handler,
+		},
+		{
+			MethodName: "GetBaseParams",
+			Handler:    _StateQueryService_GetBaseParams_Handler,
+		},
+		{
+			MethodName: "GetReadParams",
+			Handler:    _StateQueryService_GetReadParams_Handler,
+		},
+		{
+			MethodName: "GetWriteParams",
+			Handler:    _StateQueryService_GetWriteParams_Handler,
+		},
+		{
+			MethodName: "GetOwnParams",
+			Handler:    _StateQueryService_GetOwnParams_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

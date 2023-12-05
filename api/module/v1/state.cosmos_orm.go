@@ -1084,11 +1084,135 @@ func NewPropertyTable(db ormtable.Schema) (PropertyTable, error) {
 	return propertyTable{table}, nil
 }
 
+// singleton store
+type BaseParamsTable interface {
+	Get(ctx context.Context) (*BaseParams, error)
+	Save(ctx context.Context, baseParams *BaseParams) error
+}
+
+type baseParamsTable struct {
+	table ormtable.Table
+}
+
+var _ BaseParamsTable = baseParamsTable{}
+
+func (x baseParamsTable) Get(ctx context.Context) (*BaseParams, error) {
+	baseParams := &BaseParams{}
+	_, err := x.table.Get(ctx, baseParams)
+	return baseParams, err
+}
+
+func (x baseParamsTable) Save(ctx context.Context, baseParams *BaseParams) error {
+	return x.table.Save(ctx, baseParams)
+}
+
+func NewBaseParamsTable(db ormtable.Schema) (BaseParamsTable, error) {
+	table := db.GetTable(&BaseParams{})
+	if table == nil {
+		return nil, ormerrors.TableNotFound.Wrap(string((&BaseParams{}).ProtoReflect().Descriptor().FullName()))
+	}
+	return &baseParamsTable{table}, nil
+}
+
+// singleton store
+type ReadParamsTable interface {
+	Get(ctx context.Context) (*ReadParams, error)
+	Save(ctx context.Context, readParams *ReadParams) error
+}
+
+type readParamsTable struct {
+	table ormtable.Table
+}
+
+var _ ReadParamsTable = readParamsTable{}
+
+func (x readParamsTable) Get(ctx context.Context) (*ReadParams, error) {
+	readParams := &ReadParams{}
+	_, err := x.table.Get(ctx, readParams)
+	return readParams, err
+}
+
+func (x readParamsTable) Save(ctx context.Context, readParams *ReadParams) error {
+	return x.table.Save(ctx, readParams)
+}
+
+func NewReadParamsTable(db ormtable.Schema) (ReadParamsTable, error) {
+	table := db.GetTable(&ReadParams{})
+	if table == nil {
+		return nil, ormerrors.TableNotFound.Wrap(string((&ReadParams{}).ProtoReflect().Descriptor().FullName()))
+	}
+	return &readParamsTable{table}, nil
+}
+
+// singleton store
+type WriteParamsTable interface {
+	Get(ctx context.Context) (*WriteParams, error)
+	Save(ctx context.Context, writeParams *WriteParams) error
+}
+
+type writeParamsTable struct {
+	table ormtable.Table
+}
+
+var _ WriteParamsTable = writeParamsTable{}
+
+func (x writeParamsTable) Get(ctx context.Context) (*WriteParams, error) {
+	writeParams := &WriteParams{}
+	_, err := x.table.Get(ctx, writeParams)
+	return writeParams, err
+}
+
+func (x writeParamsTable) Save(ctx context.Context, writeParams *WriteParams) error {
+	return x.table.Save(ctx, writeParams)
+}
+
+func NewWriteParamsTable(db ormtable.Schema) (WriteParamsTable, error) {
+	table := db.GetTable(&WriteParams{})
+	if table == nil {
+		return nil, ormerrors.TableNotFound.Wrap(string((&WriteParams{}).ProtoReflect().Descriptor().FullName()))
+	}
+	return &writeParamsTable{table}, nil
+}
+
+// singleton store
+type OwnParamsTable interface {
+	Get(ctx context.Context) (*OwnParams, error)
+	Save(ctx context.Context, ownParams *OwnParams) error
+}
+
+type ownParamsTable struct {
+	table ormtable.Table
+}
+
+var _ OwnParamsTable = ownParamsTable{}
+
+func (x ownParamsTable) Get(ctx context.Context) (*OwnParams, error) {
+	ownParams := &OwnParams{}
+	_, err := x.table.Get(ctx, ownParams)
+	return ownParams, err
+}
+
+func (x ownParamsTable) Save(ctx context.Context, ownParams *OwnParams) error {
+	return x.table.Save(ctx, ownParams)
+}
+
+func NewOwnParamsTable(db ormtable.Schema) (OwnParamsTable, error) {
+	table := db.GetTable(&OwnParams{})
+	if table == nil {
+		return nil, ormerrors.TableNotFound.Wrap(string((&OwnParams{}).ProtoReflect().Descriptor().FullName()))
+	}
+	return &ownParamsTable{table}, nil
+}
+
 type StateStore interface {
 	ServiceRecordTable() ServiceRecordTable
 	UserProfileTable() UserProfileTable
 	ResourceTable() ResourceTable
 	PropertyTable() PropertyTable
+	BaseParamsTable() BaseParamsTable
+	ReadParamsTable() ReadParamsTable
+	WriteParamsTable() WriteParamsTable
+	OwnParamsTable() OwnParamsTable
 
 	doNotImplement()
 }
@@ -1098,6 +1222,10 @@ type stateStore struct {
 	userProfile   UserProfileTable
 	resource      ResourceTable
 	property      PropertyTable
+	baseParams    BaseParamsTable
+	readParams    ReadParamsTable
+	writeParams   WriteParamsTable
+	ownParams     OwnParamsTable
 }
 
 func (x stateStore) ServiceRecordTable() ServiceRecordTable {
@@ -1114,6 +1242,22 @@ func (x stateStore) ResourceTable() ResourceTable {
 
 func (x stateStore) PropertyTable() PropertyTable {
 	return x.property
+}
+
+func (x stateStore) BaseParamsTable() BaseParamsTable {
+	return x.baseParams
+}
+
+func (x stateStore) ReadParamsTable() ReadParamsTable {
+	return x.readParams
+}
+
+func (x stateStore) WriteParamsTable() WriteParamsTable {
+	return x.writeParams
+}
+
+func (x stateStore) OwnParamsTable() OwnParamsTable {
+	return x.ownParams
 }
 
 func (stateStore) doNotImplement() {}
@@ -1141,10 +1285,34 @@ func NewStateStore(db ormtable.Schema) (StateStore, error) {
 		return nil, err
 	}
 
+	baseParamsTable, err := NewBaseParamsTable(db)
+	if err != nil {
+		return nil, err
+	}
+
+	readParamsTable, err := NewReadParamsTable(db)
+	if err != nil {
+		return nil, err
+	}
+
+	writeParamsTable, err := NewWriteParamsTable(db)
+	if err != nil {
+		return nil, err
+	}
+
+	ownParamsTable, err := NewOwnParamsTable(db)
+	if err != nil {
+		return nil, err
+	}
+
 	return stateStore{
 		serviceRecordTable,
 		userProfileTable,
 		resourceTable,
 		propertyTable,
+		baseParamsTable,
+		readParamsTable,
+		writeParamsTable,
+		ownParamsTable,
 	}, nil
 }

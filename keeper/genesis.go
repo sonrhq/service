@@ -25,6 +25,10 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *service.GenesisState) er
 		return err
 	}
 
+	k.db.BaseParamsTable().Save(ctx, &modulev1.BaseParams{
+
+	})
+
 	for _, counter := range data.Counters {
 		if err := k.Counter.Set(ctx, counter.Address, counter.Count); err != nil {
 			return err

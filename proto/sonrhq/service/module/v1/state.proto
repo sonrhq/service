@@ -181,3 +181,34 @@ message Property {
   // Owner is the UserProfile DID of the owner of the property (i.e: did:sonr:abc1234)
   string owner = 6;
 }
+
+message BaseParams {
+  option (cosmos.orm.v1.singleton) = {
+    id: 5
+  };
+  uint64 min_threshold = 2;
+}
+
+
+message ReadParams {
+  option (cosmos.orm.v1.singleton) = {
+    id: 6
+  };
+  uint64 min_threshold = 2;
+}
+
+
+message WriteParams {
+  option (cosmos.orm.v1.singleton) = {
+    id: 7
+  };
+  uint64 min_threshold = 2;
+}
+
+
+message OwnParams {
+  option (cosmos.orm.v1.singleton) = {
+    id: 8
+  };
+  uint64 min_threshold = 2;
+}

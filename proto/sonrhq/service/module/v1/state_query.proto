@@ -45,6 +45,14 @@ service StateQueryService {
   rpc GetPropertyBySchemaOwnerKey(GetPropertyBySchemaOwnerKeyRequest) returns (GetPropertyBySchemaOwnerKeyResponse) {}
   // ListProperty queries the Property table using prefix and range queries against defined indexes.
   rpc ListProperty(ListPropertyRequest) returns (ListPropertyResponse) {}
+  // GetBaseParams queries the BaseParams singleton.
+  rpc GetBaseParams(GetBaseParamsRequest) returns (GetBaseParamsResponse) {}
+  // GetReadParams queries the ReadParams singleton.
+  rpc GetReadParams(GetReadParamsRequest) returns (GetReadParamsResponse) {}
+  // GetWriteParams queries the WriteParams singleton.
+  rpc GetWriteParams(GetWriteParamsRequest) returns (GetWriteParamsResponse) {}
+  // GetOwnParams queries the OwnParams singleton.
+  rpc GetOwnParams(GetOwnParamsRequest) returns (GetOwnParamsResponse) {}
 }
 
 // GetServiceRecordRequest is the StateQuery/GetServiceRecordRequest request type.
@@ -620,5 +628,41 @@ message ListPropertyResponse {
   repeated Property values = 1;
   // pagination is the pagination response.
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// GetBaseParamsRequest is the StateQuery/GetBaseParamsRequest request type.
+message GetBaseParamsRequest {
+}
+
+// GetBaseParamsResponse is the StateQuery/GetBaseParamsResponse request type.
+message GetBaseParamsResponse {
+  BaseParams value = 1;
+}
+
+// GetReadParamsRequest is the StateQuery/GetReadParamsRequest request type.
+message GetReadParamsRequest {
+}
+
+// GetReadParamsResponse is the StateQuery/GetReadParamsResponse request type.
+message GetReadParamsResponse {
+  ReadParams value = 1;
+}
+
+// GetWriteParamsRequest is the StateQuery/GetWriteParamsRequest request type.
+message GetWriteParamsRequest {
+}
+
+// GetWriteParamsResponse is the StateQuery/GetWriteParamsResponse request type.
+message GetWriteParamsResponse {
+  WriteParams value = 1;
+}
+
+// GetOwnParamsRequest is the StateQuery/GetOwnParamsRequest request type.
+message GetOwnParamsRequest {
+}
+
+// GetOwnParamsResponse is the StateQuery/GetOwnParamsResponse request type.
+message GetOwnParamsResponse {
+  OwnParams value = 1;
 }
 
