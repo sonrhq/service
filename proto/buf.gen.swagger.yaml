@@ -5,4 +5,5 @@ plugins:
     opt:
       - fqn_for_swagger_name=true
       - simple_operation_ids=true
+      - allow_merge=true
       - logtostderr=true

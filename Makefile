@@ -32,6 +32,10 @@ proto-all:
 	mv ./sonrhq/service ./api
 	rm -rf ./sonrhq
 
+proto-swagger-gen:
+	@echo "Generating Protobuf Swagger"
+	@$(protoImage) sh ./scripts/protocgen-docs.sh
+
 .PHONY: proto-all proto-gen proto-format proto-lint
 
 #################
