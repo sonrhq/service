@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"cosmossdk.io/collections"
+
 	"github.com/sonrhq/service"
 )
 
@@ -31,7 +32,7 @@ func (ms msgServer) IncrementCounter(ctx context.Context, msg *service.MsgIncrem
 	if err != nil && !errors.Is(err, collections.ErrNotFound) {
 		return nil, err
 	}
-
+	ms.k.db.ResourceTable()
 	counter++
 
 	if err := ms.k.Counter.Set(ctx, msg.Sender, counter); err != nil {

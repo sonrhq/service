@@ -7,55 +7,147 @@ import "sonrhq/service/module/v1/state.proto";
 
 // StateQueryService queries the state of the tables specified by sonrhq/service/module/v1/state.proto.
 service StateQueryService {
-  // Get queries the Balance table by its primary key.
-  rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse) {}
-  // ListBalance queries the Balance table using prefix and range queries against defined indexes.
-  rpc ListBalance(ListBalanceRequest) returns (ListBalanceResponse) {}
-  // Get queries the Supply table by its primary key.
-  rpc GetSupply(GetSupplyRequest) returns (GetSupplyResponse) {}
-  // ListSupply queries the Supply table using prefix and range queries against defined indexes.
-  rpc ListSupply(ListSupplyRequest) returns (ListSupplyResponse) {}
+  // Get queries the ServiceRecord table by its primary key.
+  rpc GetServiceRecord(GetServiceRecordRequest) returns (GetServiceRecordResponse) {}
+  // GetServiceRecordByOrigin queries the ServiceRecord table by its Origin index
+  rpc GetServiceRecordByOrigin(GetServiceRecordByOriginRequest) returns (GetServiceRecordByOriginResponse) {}
+  // GetServiceRecordByNameOwner queries the ServiceRecord table by its NameOwner index
+  rpc GetServiceRecordByNameOwner(GetServiceRecordByNameOwnerRequest) returns (GetServiceRecordByNameOwnerResponse) {}
+  // GetServiceRecordByOriginOwner queries the ServiceRecord table by its OriginOwner index
+  rpc GetServiceRecordByOriginOwner(GetServiceRecordByOriginOwnerRequest) returns (GetServiceRecordByOriginOwnerResponse) {}
+  // ListServiceRecord queries the ServiceRecord table using prefix and range queries against defined indexes.
+  rpc ListServiceRecord(ListServiceRecordRequest) returns (ListServiceRecordResponse) {}
+  // Get queries the UserProfile table by its primary key.
+  rpc GetUserProfile(GetUserProfileRequest) returns (GetUserProfileResponse) {}
+  // GetUserProfileByOriginHandle queries the UserProfile table by its OriginHandle index
+  rpc GetUserProfileByOriginHandle(GetUserProfileByOriginHandleRequest) returns (GetUserProfileByOriginHandleResponse) {}
+  // ListUserProfile queries the UserProfile table using prefix and range queries against defined indexes.
+  rpc ListUserProfile(ListUserProfileRequest) returns (ListUserProfileResponse) {}
+  // Get queries the Resource table by its primary key.
+  rpc GetResource(GetResourceRequest) returns (GetResourceResponse) {}
+  // GetResourceByCid queries the Resource table by its Cid index
+  rpc GetResourceByCid(GetResourceByCidRequest) returns (GetResourceByCidResponse) {}
+  // GetResourceByOriginCid queries the Resource table by its OriginCid index
+  rpc GetResourceByOriginCid(GetResourceByOriginCidRequest) returns (GetResourceByOriginCidResponse) {}
+  // GetResourceByOwnerCid queries the Resource table by its OwnerCid index
+  rpc GetResourceByOwnerCid(GetResourceByOwnerCidRequest) returns (GetResourceByOwnerCidResponse) {}
+  // GetResourceByOwnerOriginCid queries the Resource table by its OwnerOriginCid index
+  rpc GetResourceByOwnerOriginCid(GetResourceByOwnerOriginCidRequest) returns (GetResourceByOwnerOriginCidResponse) {}
+  // ListResource queries the Resource table using prefix and range queries against defined indexes.
+  rpc ListResource(ListResourceRequest) returns (ListResourceResponse) {}
+  // Get queries the Property table by its primary key.
+  rpc GetProperty(GetPropertyRequest) returns (GetPropertyResponse) {}
+  // GetPropertyByOriginOwnerKey queries the Property table by its OriginOwnerKey index
+  rpc GetPropertyByOriginOwnerKey(GetPropertyByOriginOwnerKeyRequest) returns (GetPropertyByOriginOwnerKeyResponse) {}
+  // GetPropertyBySchemaKey queries the Property table by its SchemaKey index
+  rpc GetPropertyBySchemaKey(GetPropertyBySchemaKeyRequest) returns (GetPropertyBySchemaKeyResponse) {}
+  // GetPropertyBySchemaOwnerKey queries the Property table by its SchemaOwnerKey index
+  rpc GetPropertyBySchemaOwnerKey(GetPropertyBySchemaOwnerKeyRequest) returns (GetPropertyBySchemaOwnerKeyResponse) {}
+  // ListProperty queries the Property table using prefix and range queries against defined indexes.
+  rpc ListProperty(ListPropertyRequest) returns (ListPropertyResponse) {}
 }
 
-// GetBalanceRequest is the StateQuery/GetBalanceRequest request type.
-message GetBalanceRequest {
-  // address specifies the value of the address field in the primary key.
-  string address = 1;
-  // denom specifies the value of the denom field in the primary key.
-  string denom = 2;
+// GetServiceRecordRequest is the StateQuery/GetServiceRecordRequest request type.
+message GetServiceRecordRequest {
+  // did specifies the value of the did field in the primary key.
+  string did = 1;
+  // origin specifies the value of the origin field in the primary key.
+  string origin = 2;
 }
 
-// GetBalanceResponse is the StateQuery/GetBalanceResponse response type.
-message GetBalanceResponse {
+// GetServiceRecordResponse is the StateQuery/GetServiceRecordResponse response type.
+message GetServiceRecordResponse {
   // value is the response value.
-  Balance value = 1;
+  ServiceRecord value = 1;
 }
 
-// ListBalanceRequest is the StateQuery/ListBalanceRequest request type.
-message ListBalanceRequest {
+// GetServiceRecordByOriginRequest is the StateQuery/GetServiceRecordByOriginRequest request type.
+message GetServiceRecordByOriginRequest {
+  string origin = 1;
+}
+
+// GetServiceRecordByOriginResponse is the StateQuery/GetServiceRecordByOriginResponse response type.
+message GetServiceRecordByOriginResponse {
+  ServiceRecord value = 1;
+}
+
+// GetServiceRecordByNameOwnerRequest is the StateQuery/GetServiceRecordByNameOwnerRequest request type.
+message GetServiceRecordByNameOwnerRequest {
+  string name = 1;
+  string owner = 2;
+}
+
+// GetServiceRecordByNameOwnerResponse is the StateQuery/GetServiceRecordByNameOwnerResponse response type.
+message GetServiceRecordByNameOwnerResponse {
+  ServiceRecord value = 1;
+}
+
+// GetServiceRecordByOriginOwnerRequest is the StateQuery/GetServiceRecordByOriginOwnerRequest request type.
+message GetServiceRecordByOriginOwnerRequest {
+  string origin = 1;
+  string owner = 2;
+}
+
+// GetServiceRecordByOriginOwnerResponse is the StateQuery/GetServiceRecordByOriginOwnerResponse response type.
+message GetServiceRecordByOriginOwnerResponse {
+  ServiceRecord value = 1;
+}
+
+// ListServiceRecordRequest is the StateQuery/ListServiceRecordRequest request type.
+message ListServiceRecordRequest {
   // IndexKey specifies the value of an index key to use in prefix and range queries.
   message IndexKey {
     // key specifies the index key value.
     oneof key {
-      // address_denom specifies the value of the AddressDenom index key to use in the query.
-      AddressDenom address_denom = 1;
-      // denom specifies the value of the Denom index key to use in the query.
-      Denom denom = 2;
+      // did_origin specifies the value of the DidOrigin index key to use in the query.
+      DidOrigin did_origin = 1;
+      // origin specifies the value of the Origin index key to use in the query.
+      Origin origin = 2;
+      // owner specifies the value of the Owner index key to use in the query.
+      Owner owner = 3;
+      // name_owner specifies the value of the NameOwner index key to use in the query.
+      NameOwner name_owner = 4;
+      // origin_owner specifies the value of the OriginOwner index key to use in the query.
+      OriginOwner origin_owner = 5;
     }
     
-    message AddressDenom {
-      // address is the value of the address field in the index.
+    message DidOrigin {
+      // did is the value of the did field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
-      optional string address = 1;
-      // denom is the value of the denom field in the index.
+      optional string did = 1;
+      // origin is the value of the origin field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
-      optional string denom = 2;
+      optional string origin = 2;
     }
     
-    message Denom {
-      // denom is the value of the denom field in the index.
+    message Origin {
+      // origin is the value of the origin field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
-      optional string denom = 1;
+      optional string origin = 1;
+    }
+    
+    message Owner {
+      // owner is the value of the owner field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string owner = 1;
+    }
+    
+    message NameOwner {
+      // name is the value of the name field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string name = 1;
+      // owner is the value of the owner field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string owner = 2;
+    }
+    
+    message OriginOwner {
+      // origin is the value of the origin field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string origin = 1;
+      // owner is the value of the owner field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string owner = 2;
     }
   }
   
@@ -81,40 +173,80 @@ message ListBalanceRequest {
   }
 }
 
-// ListBalanceResponse is the StateQuery/ListBalanceResponse response type.
-message ListBalanceResponse {
+// ListServiceRecordResponse is the StateQuery/ListServiceRecordResponse response type.
+message ListServiceRecordResponse {
   // values are the results of the query.
-  repeated Balance values = 1;
+  repeated ServiceRecord values = 1;
   // pagination is the pagination response.
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-// GetSupplyRequest is the StateQuery/GetSupplyRequest request type.
-message GetSupplyRequest {
-  // denom specifies the value of the denom field in the primary key.
-  string denom = 1;
+// GetUserProfileRequest is the StateQuery/GetUserProfileRequest request type.
+message GetUserProfileRequest {
+  // did specifies the value of the did field in the primary key.
+  string did = 1;
+  // origin specifies the value of the origin field in the primary key.
+  string origin = 2;
+  // handle specifies the value of the handle field in the primary key.
+  string handle = 3;
 }
 
-// GetSupplyResponse is the StateQuery/GetSupplyResponse response type.
-message GetSupplyResponse {
+// GetUserProfileResponse is the StateQuery/GetUserProfileResponse response type.
+message GetUserProfileResponse {
   // value is the response value.
-  Supply value = 1;
+  UserProfile value = 1;
 }
 
-// ListSupplyRequest is the StateQuery/ListSupplyRequest request type.
-message ListSupplyRequest {
+// GetUserProfileByOriginHandleRequest is the StateQuery/GetUserProfileByOriginHandleRequest request type.
+message GetUserProfileByOriginHandleRequest {
+  string origin = 1;
+  string handle = 2;
+}
+
+// GetUserProfileByOriginHandleResponse is the StateQuery/GetUserProfileByOriginHandleResponse response type.
+message GetUserProfileByOriginHandleResponse {
+  UserProfile value = 1;
+}
+
+// ListUserProfileRequest is the StateQuery/ListUserProfileRequest request type.
+message ListUserProfileRequest {
   // IndexKey specifies the value of an index key to use in prefix and range queries.
   message IndexKey {
     // key specifies the index key value.
     oneof key {
-      // denom specifies the value of the Denom index key to use in the query.
-      Denom denom = 1;
+      // did_origin_handle specifies the value of the DidOriginHandle index key to use in the query.
+      DidOriginHandle did_origin_handle = 1;
+      // origin specifies the value of the Origin index key to use in the query.
+      Origin origin = 2;
+      // origin_handle specifies the value of the OriginHandle index key to use in the query.
+      OriginHandle origin_handle = 3;
     }
     
-    message Denom {
-      // denom is the value of the denom field in the index.
+    message DidOriginHandle {
+      // did is the value of the did field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
-      optional string denom = 1;
+      optional string did = 1;
+      // origin is the value of the origin field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string origin = 2;
+      // handle is the value of the handle field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string handle = 3;
+    }
+    
+    message Origin {
+      // origin is the value of the origin field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string origin = 1;
+    }
+    
+    message OriginHandle {
+      // origin is the value of the origin field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string origin = 1;
+      // handle is the value of the handle field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string handle = 2;
     }
   }
   
@@ -140,10 +272,352 @@ message ListSupplyRequest {
   }
 }
 
-// ListSupplyResponse is the StateQuery/ListSupplyResponse response type.
-message ListSupplyResponse {
+// ListUserProfileResponse is the StateQuery/ListUserProfileResponse response type.
+message ListUserProfileResponse {
   // values are the results of the query.
-  repeated Supply values = 1;
+  repeated UserProfile values = 1;
+  // pagination is the pagination response.
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// GetResourceRequest is the StateQuery/GetResourceRequest request type.
+message GetResourceRequest {
+  // did specifies the value of the did field in the primary key.
+  string did = 1;
+  // cid specifies the value of the cid field in the primary key.
+  string cid = 2;
+}
+
+// GetResourceResponse is the StateQuery/GetResourceResponse response type.
+message GetResourceResponse {
+  // value is the response value.
+  Resource value = 1;
+}
+
+// GetResourceByCidRequest is the StateQuery/GetResourceByCidRequest request type.
+message GetResourceByCidRequest {
+  string cid = 1;
+}
+
+// GetResourceByCidResponse is the StateQuery/GetResourceByCidResponse response type.
+message GetResourceByCidResponse {
+  Resource value = 1;
+}
+
+// GetResourceByOriginCidRequest is the StateQuery/GetResourceByOriginCidRequest request type.
+message GetResourceByOriginCidRequest {
+  string origin = 1;
+  string cid = 2;
+}
+
+// GetResourceByOriginCidResponse is the StateQuery/GetResourceByOriginCidResponse response type.
+message GetResourceByOriginCidResponse {
+  Resource value = 1;
+}
+
+// GetResourceByOwnerCidRequest is the StateQuery/GetResourceByOwnerCidRequest request type.
+message GetResourceByOwnerCidRequest {
+  string owner = 1;
+  string cid = 2;
+}
+
+// GetResourceByOwnerCidResponse is the StateQuery/GetResourceByOwnerCidResponse response type.
+message GetResourceByOwnerCidResponse {
+  Resource value = 1;
+}
+
+// GetResourceByOwnerOriginCidRequest is the StateQuery/GetResourceByOwnerOriginCidRequest request type.
+message GetResourceByOwnerOriginCidRequest {
+  string owner = 1;
+  string origin = 2;
+  string cid = 3;
+}
+
+// GetResourceByOwnerOriginCidResponse is the StateQuery/GetResourceByOwnerOriginCidResponse response type.
+message GetResourceByOwnerOriginCidResponse {
+  Resource value = 1;
+}
+
+// ListResourceRequest is the StateQuery/ListResourceRequest request type.
+message ListResourceRequest {
+  // IndexKey specifies the value of an index key to use in prefix and range queries.
+  message IndexKey {
+    // key specifies the index key value.
+    oneof key {
+      // did_cid specifies the value of the DidCid index key to use in the query.
+      DidCid did_cid = 1;
+      // cid specifies the value of the Cid index key to use in the query.
+      Cid cid = 2;
+      // origin specifies the value of the Origin index key to use in the query.
+      Origin origin = 3;
+      // origin_cid specifies the value of the OriginCid index key to use in the query.
+      OriginCid origin_cid = 4;
+      // owner specifies the value of the Owner index key to use in the query.
+      Owner owner = 5;
+      // owner_cid specifies the value of the OwnerCid index key to use in the query.
+      OwnerCid owner_cid = 6;
+      // owner_origin_cid specifies the value of the OwnerOriginCid index key to use in the query.
+      OwnerOriginCid owner_origin_cid = 7;
+    }
+    
+    message DidCid {
+      // did is the value of the did field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string did = 1;
+      // cid is the value of the cid field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string cid = 2;
+    }
+    
+    message Cid {
+      // cid is the value of the cid field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string cid = 1;
+    }
+    
+    message Origin {
+      // origin is the value of the origin field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string origin = 1;
+    }
+    
+    message OriginCid {
+      // origin is the value of the origin field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string origin = 1;
+      // cid is the value of the cid field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string cid = 2;
+    }
+    
+    message Owner {
+      // owner is the value of the owner field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string owner = 1;
+    }
+    
+    message OwnerCid {
+      // owner is the value of the owner field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string owner = 1;
+      // cid is the value of the cid field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string cid = 2;
+    }
+    
+    message OwnerOriginCid {
+      // owner is the value of the owner field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string owner = 1;
+      // origin is the value of the origin field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string origin = 2;
+      // cid is the value of the cid field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string cid = 3;
+    }
+  }
+  
+  // query specifies the type of query - either a prefix or range query.
+  oneof query {
+    // prefix_query specifies the index key value to use for the prefix query.
+    IndexKey prefix_query = 1;
+    // range_query specifies the index key from/to values to use for the range query.
+    RangeQuery range_query = 2;
+  }
+  // pagination specifies optional pagination parameters.
+  cosmos.base.query.v1beta1.PageRequest pagination = 3;
+  
+  // RangeQuery specifies the from/to index keys for a range query.
+  message RangeQuery {
+    // from is the index key to use for the start of the range query.
+    // To query from the start of an index, specify an index key for that index with empty values.
+    IndexKey from = 1;
+    // to is the index key to use for the end of the range query.
+    // The index key type MUST be the same as the index key type used for from.
+    // To query from to the end of an index it can be omitted.
+    IndexKey to = 2;
+  }
+}
+
+// ListResourceResponse is the StateQuery/ListResourceResponse response type.
+message ListResourceResponse {
+  // values are the results of the query.
+  repeated Resource values = 1;
+  // pagination is the pagination response.
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// GetPropertyRequest is the StateQuery/GetPropertyRequest request type.
+message GetPropertyRequest {
+  // did specifies the value of the did field in the primary key.
+  string did = 1;
+}
+
+// GetPropertyResponse is the StateQuery/GetPropertyResponse response type.
+message GetPropertyResponse {
+  // value is the response value.
+  Property value = 1;
+}
+
+// GetPropertyByOriginOwnerKeyRequest is the StateQuery/GetPropertyByOriginOwnerKeyRequest request type.
+message GetPropertyByOriginOwnerKeyRequest {
+  string origin = 1;
+  string owner = 2;
+  string key = 3;
+}
+
+// GetPropertyByOriginOwnerKeyResponse is the StateQuery/GetPropertyByOriginOwnerKeyResponse response type.
+message GetPropertyByOriginOwnerKeyResponse {
+  Property value = 1;
+}
+
+// GetPropertyBySchemaKeyRequest is the StateQuery/GetPropertyBySchemaKeyRequest request type.
+message GetPropertyBySchemaKeyRequest {
+  string schema = 1;
+  string key = 2;
+}
+
+// GetPropertyBySchemaKeyResponse is the StateQuery/GetPropertyBySchemaKeyResponse response type.
+message GetPropertyBySchemaKeyResponse {
+  Property value = 1;
+}
+
+// GetPropertyBySchemaOwnerKeyRequest is the StateQuery/GetPropertyBySchemaOwnerKeyRequest request type.
+message GetPropertyBySchemaOwnerKeyRequest {
+  string schema = 1;
+  string owner = 2;
+  string key = 3;
+}
+
+// GetPropertyBySchemaOwnerKeyResponse is the StateQuery/GetPropertyBySchemaOwnerKeyResponse response type.
+message GetPropertyBySchemaOwnerKeyResponse {
+  Property value = 1;
+}
+
+// ListPropertyRequest is the StateQuery/ListPropertyRequest request type.
+message ListPropertyRequest {
+  // IndexKey specifies the value of an index key to use in prefix and range queries.
+  message IndexKey {
+    // key specifies the index key value.
+    oneof key {
+      // did specifies the value of the Did index key to use in the query.
+      Did did = 1;
+      // origin_owner_key specifies the value of the OriginOwnerKey index key to use in the query.
+      OriginOwnerKey origin_owner_key = 2;
+      // owner_key specifies the value of the OwnerKey index key to use in the query.
+      OwnerKey owner_key = 3;
+      // origin_key specifies the value of the OriginKey index key to use in the query.
+      OriginKey origin_key = 4;
+      // origin_owner specifies the value of the OriginOwner index key to use in the query.
+      OriginOwner origin_owner = 5;
+      // owner specifies the value of the Owner index key to use in the query.
+      Owner owner = 6;
+      // schema_key specifies the value of the SchemaKey index key to use in the query.
+      SchemaKey schema_key = 7;
+      // schema_owner_key specifies the value of the SchemaOwnerKey index key to use in the query.
+      SchemaOwnerKey schema_owner_key = 8;
+    }
+    
+    message Did {
+      // did is the value of the did field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string did = 1;
+    }
+    
+    message OriginOwnerKey {
+      // origin is the value of the origin field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string origin = 1;
+      // owner is the value of the owner field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string owner = 2;
+      // key is the value of the key field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string key = 3;
+    }
+    
+    message OwnerKey {
+      // owner is the value of the owner field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string owner = 1;
+      // key is the value of the key field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string key = 2;
+    }
+    
+    message OriginKey {
+      // origin is the value of the origin field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string origin = 1;
+      // key is the value of the key field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string key = 2;
+    }
+    
+    message OriginOwner {
+      // origin is the value of the origin field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string origin = 1;
+      // owner is the value of the owner field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string owner = 2;
+    }
+    
+    message Owner {
+      // owner is the value of the owner field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string owner = 1;
+    }
+    
+    message SchemaKey {
+      // schema is the value of the schema field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string schema = 1;
+      // key is the value of the key field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string key = 2;
+    }
+    
+    message SchemaOwnerKey {
+      // schema is the value of the schema field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string schema = 1;
+      // owner is the value of the owner field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string owner = 2;
+      // key is the value of the key field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string key = 3;
+    }
+  }
+  
+  // query specifies the type of query - either a prefix or range query.
+  oneof query {
+    // prefix_query specifies the index key value to use for the prefix query.
+    IndexKey prefix_query = 1;
+    // range_query specifies the index key from/to values to use for the range query.
+    RangeQuery range_query = 2;
+  }
+  // pagination specifies optional pagination parameters.
+  cosmos.base.query.v1beta1.PageRequest pagination = 3;
+  
+  // RangeQuery specifies the from/to index keys for a range query.
+  message RangeQuery {
+    // from is the index key to use for the start of the range query.
+    // To query from the start of an index, specify an index key for that index with empty values.
+    IndexKey from = 1;
+    // to is the index key to use for the end of the range query.
+    // The index key type MUST be the same as the index key type used for from.
+    // To query from to the end of an index it can be omitted.
+    IndexKey to = 2;
+  }
+}
+
+// ListPropertyResponse is the StateQuery/ListPropertyResponse response type.
+message ListPropertyResponse {
+  // values are the results of the query.
+  repeated Property values = 1;
   // pagination is the pagination response.
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
