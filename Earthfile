@@ -41,11 +41,10 @@ deps:
     FROM ghcr.io/cosmos/proto-builder:0.14.0
     RUN go install cosmossdk.io/orm/cmd/protoc-gen-go-cosmos-orm@latest
 	RUN go install cosmossdk.io/orm/cmd/protoc-gen-go-cosmos-orm-proto@latest
-    SAVE IMAGE service-deps
 
 # generate - generates all code from proto files
 generate:
-    FROM +service-deps
+    FROM +deps
     COPY . .
     RUN sh ./scripts/protocgen.sh
     SAVE ARTIFACT sonrhq/service AS LOCAL api
