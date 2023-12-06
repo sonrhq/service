@@ -182,6 +182,7 @@ message Property {
   string owner = 6;
 }
 
+// BaseParams is the total supply of the module.
 message BaseParams {
   option (cosmos.orm.v1.singleton) = {
     id: 5
@@ -190,6 +191,7 @@ message BaseParams {
 }
 
 
+// ReadParams is the total supply of the module.
 message ReadParams {
   option (cosmos.orm.v1.singleton) = {
     id: 6
@@ -198,6 +200,7 @@ message ReadParams {
 }
 
 
+// WriteParams is the total supply of the module.
 message WriteParams {
   option (cosmos.orm.v1.singleton) = {
     id: 7
@@ -206,6 +209,7 @@ message WriteParams {
 }
 
 
+// OwnParams is the total supply of the module.
 message OwnParams {
   option (cosmos.orm.v1.singleton) = {
     id: 8
