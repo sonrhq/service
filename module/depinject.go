@@ -35,6 +35,8 @@ type ModuleInputs struct {
 	StoreService store.KVStoreService
 	AddressCodec address.Codec
 	IdentityKeeper service.IdentityKeeper
+	GroupKeeper service.GroupKeeper
+	BankKeeper service.BankKeeper
 
 	Config *modulev1.Module
 }
@@ -53,8 +55,8 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		authority = authtypes.NewModuleAddressOrBech32Address(in.Config.Authority)
 	}
 
-	k := keeper.NewKeeper(in.Cdc, in.AddressCodec, in.StoreService, in.IdentityKeeper, authority.String())
-	m := NewAppModule(in.Cdc, k, in.IdentityKeeper)
+	k := keeper.NewKeeper(in.Cdc, in.AddressCodec, in.StoreService, in.IdentityKeeper, in.BankKeeper, in.GroupKeeper, authority.String())
+	m := NewAppModule(in.Cdc, k, in.IdentityKeeper, in.GroupKeeper, in.BankKeeper)
 
 	return ModuleOutputs{Module: m, Keeper: k}
 }

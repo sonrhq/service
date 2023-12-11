@@ -23,6 +23,11 @@ type Keeper struct {
 	// typically, this should be the x/gov module account.
 	authority string
 
+	// referenced keepers
+	identityKeeper service.IdentityKeeper
+	bankKeeper     service.BankKeeper
+	groupKeeper    service.GroupKeeper
+
 	// state management
 	ormtable.Schema
 	CollSchema collections.Schema
@@ -31,7 +36,9 @@ type Keeper struct {
 }
 
 // NewKeeper creates a new Keeper instance
-func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService storetypes.KVStoreService, identityKeeper service.IdentityKeeper, authority string) Keeper {
+func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService storetypes.KVStoreService, identityKeeper service.IdentityKeeper,
+	bankKeeper service.BankKeeper, groupKeeper service.GroupKeeper,
+	authority string) Keeper {
 	if _, err := addressCodec.StringToBytes(authority); err != nil {
 		panic(fmt.Errorf("invalid authority address: %w", err))
 	}
@@ -47,12 +54,15 @@ func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService s
 
 	sb := collections.NewSchemaBuilder(storeService)
 	k := Keeper{
-		cdc:          cdc,
-		addressCodec: addressCodec,
-		authority:    authority,
-		Params:       collections.NewItem(sb, service.ParamsKey, "params", codec.CollValue[service.Params](cdc)),
-		Counter:      collections.NewMap(sb, service.CounterKey, "counter", collections.StringKey, collections.Uint64Value),
-		db:           store,
+		cdc:            cdc,
+		addressCodec:   addressCodec,
+		authority:      authority,
+		Params:         collections.NewItem(sb, service.ParamsKey, "params", codec.CollValue[service.Params](cdc)),
+		Counter:        collections.NewMap(sb, service.CounterKey, "counter", collections.StringKey, collections.Uint64Value),
+		db:             store,
+		identityKeeper: identityKeeper,
+		bankKeeper:     bankKeeper,
+		groupKeeper:    groupKeeper,
 	}
 
 	schema, err := sb.Build()

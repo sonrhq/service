@@ -30,14 +30,18 @@ type AppModule struct {
 	cdc    codec.Codec
 	keeper keeper.Keeper
 	identityKeeper service.IdentityKeeper
+	groupKeeper service.GroupKeeper
+	bankKeeper service.BankKeeper
 }
 
 // NewAppModule creates a new AppModule object
-func NewAppModule(cdc codec.Codec, keeper keeper.Keeper, identityKeeper service.IdentityKeeper) AppModule {
+func NewAppModule(cdc codec.Codec, keeper keeper.Keeper, identityKeeper service.IdentityKeeper, groupKeeper service.GroupKeeper, bankKeeper service.BankKeeper) AppModule {
 	return AppModule{
 		cdc:    cdc,
 		keeper: keeper,
 		identityKeeper: identityKeeper,
+		groupKeeper: groupKeeper,
+		bankKeeper: bankKeeper,
 	}
 }
 
