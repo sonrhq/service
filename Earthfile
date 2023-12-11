@@ -49,6 +49,8 @@ generate:
     RUN sh ./scripts/protocgen.sh
     SAVE ARTIFACT sonrhq/service AS LOCAL api
     SAVE ARTIFACT proto AS LOCAL proto
+    RUN sh ./scripts/protocgen-docs.sh
+    SAVE ARTIFACT docs AS LOCAL docs
 
 # test - runs all tests
 test:

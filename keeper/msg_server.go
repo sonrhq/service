@@ -9,6 +9,7 @@ import (
 	"cosmossdk.io/collections"
 
 	"github.com/sonrhq/service"
+	modulev1 "github.com/sonrhq/service/api/module/v1"
 )
 
 type msgServer struct {
@@ -34,6 +35,9 @@ func (ms msgServer) IncrementCounter(ctx context.Context, msg *service.MsgIncrem
 	}
 	ms.k.db.ResourceTable()
 	counter++
+	ms.k.db.ResourceTable().Insert(ctx, &modulev1.Resource{
+
+	})
 
 	if err := ms.k.Counter.Set(ctx, msg.Sender, counter); err != nil {
 		return nil, err

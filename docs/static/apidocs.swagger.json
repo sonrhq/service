@@ -128,38 +128,6 @@
           "Query"
         ]
       }
-    },
-    "/sonrhq/service/v1/record/{origin}": {
-      "get": {
-        "summary": "ServiceRecord returns the service record for the given domain origin.",
-        "operationId": "ServiceRecord",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/sonrhq.service.v1.QueryServiceRecordResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/grpc.gateway.runtime.Error"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "origin",
-            "description": "origin defines the origin of the service record.",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "Query"
-        ]
-      }
     }
   },
   "definitions": {
@@ -242,41 +210,6 @@
         }
       }
     },
-    "sonrhq.service.module.v1.ServicePermissions": {
-      "type": "string",
-      "enum": [
-        "SERVICE_PERMISSIONS_BASE",
-        "SERVICE_PERMISSIONS_READ",
-        "SERVICE_PERMISSIONS_WRITE",
-        "SERVICE_PERMISSIONS_OWN"
-      ],
-      "default": "SERVICE_PERMISSIONS_BASE",
-      "description": "ServicePermissions is the specified permissions the application has with the user's account.\n\n - SERVICE_PERMISSIONS_BASE: SERVICE_PERMISSIONS_BASE - off chain visibility\n - SERVICE_PERMISSIONS_READ: SERVICE_PERMISSIONS_READ - read access\n - SERVICE_PERMISSIONS_WRITE: SERVICE_PERMISSIONS_WRITE - write access\n - SERVICE_PERMISSIONS_OWN: SERVICE_PERMISSIONS_OWN - ownership"
-    },
-    "sonrhq.service.module.v1.ServiceRecord": {
-      "type": "object",
-      "properties": {
-        "did": {
-          "type": "string"
-        },
-        "origin": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "owner": {
-          "type": "string"
-        },
-        "permissions": {
-          "$ref": "#/definitions/sonrhq.service.module.v1.ServicePermissions"
-        }
-      },
-      "description": "ServiceRecord is the balance of an account."
-    },
     "sonrhq.service.v1.Counter": {
       "type": "object",
       "properties": {
@@ -333,16 +266,6 @@
         }
       },
       "description": "QueryParamsResponse is the response type for the Query/Params RPC method."
-    },
-    "sonrhq.service.v1.QueryServiceRecordResponse": {
-      "type": "object",
-      "properties": {
-        "service_record": {
-          "$ref": "#/definitions/sonrhq.service.module.v1.ServiceRecord",
-          "description": "service_record defines the service record for the given origin."
-        }
-      },
-      "description": "QueryServiceRecordResponse is the response type for the Query/ServiceRecord RPC\nmethod."
     }
   }
 }
