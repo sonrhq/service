@@ -31,7 +31,7 @@ func initFixture(t *testing.T) *testFixture {
 	storeService := runtime.NewKVStoreService(key)
 	addrs := simtestutil.CreateIncrementalAccounts(3)
 
-	k := keeper.NewKeeper(encCfg.Codec, addresscodec.NewBech32Codec("cosmos"), storeService, addrs[0].String())
+	k := keeper.NewKeeper(encCfg.Codec, addresscodec.NewBech32Codec("cosmos"), storeService, nil, addrs[0].String())
 	err := k.InitGenesis(testCtx.Ctx, service.NewGenesisState())
 	if err != nil {
 		panic(err)

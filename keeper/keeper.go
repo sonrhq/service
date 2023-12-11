@@ -31,7 +31,7 @@ type Keeper struct {
 }
 
 // NewKeeper creates a new Keeper instance
-func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService storetypes.KVStoreService, authority string) Keeper {
+func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService storetypes.KVStoreService, identityKeeper service.IdentityKeeper, authority string) Keeper {
 	if _, err := addressCodec.StringToBytes(authority); err != nil {
 		panic(fmt.Errorf("invalid authority address: %w", err))
 	}
