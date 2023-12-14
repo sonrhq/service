@@ -16,7 +16,6 @@ message State {
   };
 }
 
-
 // ServicePermissions is the specified permissions the application has with the user's account.
 enum ServicePermissions {
   // SERVICE_PERMISSIONS_BASE - off chain visibility
@@ -33,7 +32,7 @@ enum ServicePermissions {
 message ServiceRecord {
   option (cosmos.orm.v1.table) = {
     id: 1
-    primary_key: {fields: "did,origin"}
+    primary_key: {fields: "id" auto_increment: true}
     index: {
       id: 1
       fields: "origin" unique: true
@@ -52,7 +51,7 @@ message ServiceRecord {
     }
   };
 
-  string did = 1;
+  uint64 id = 1;
   string origin = 2;
   string name = 3;
   string description = 4;
@@ -65,7 +64,7 @@ message ServiceRecord {
 message UserProfile {
   option (cosmos.orm.v1.table) = {
     id: 2
-    primary_key: {fields: "did,origin,handle"}
+    primary_key: {fields: "id" auto_increment: true}
     index: {
       id: 1
       fields: "origin"
@@ -76,10 +75,11 @@ message UserProfile {
     }
   };
 
-  string did = 1;
+  uint64 id = 1;
   string origin = 2;
   string handle = 3;
-  bytes public_key = 4;
+  repeated uint64 linked_accounts = 4;
+  repeated uint64 linked_credentials = 5;
 }
 
 // Resource is the total supply of the module.
@@ -187,7 +187,10 @@ message BaseParams {
   option (cosmos.orm.v1.singleton) = {
     id: 5
   };
-  uint64 min_threshold = 2;
+  ServicePermissions permissions = 1;
+  string resident_key = 2;
+  int32 algorithm = 3;
+  string authentication_attachment = 4;
 }
 
 
@@ -196,7 +199,10 @@ message ReadParams {
   option (cosmos.orm.v1.singleton) = {
     id: 6
   };
-  uint64 min_threshold = 2;
+  ServicePermissions permissions = 1;
+  string resident_key = 2;
+  int32 algorithm = 3;
+  string authentication_attachment = 4;
 }
 
 
@@ -205,7 +211,10 @@ message WriteParams {
   option (cosmos.orm.v1.singleton) = {
     id: 7
   };
-  uint64 min_threshold = 2;
+  ServicePermissions permissions = 1;
+  string resident_key = 2;
+  int32 algorithm = 3;
+  string authentication_attachment = 4;
 }
 
 
@@ -214,5 +223,8 @@ message OwnParams {
   option (cosmos.orm.v1.singleton) = {
     id: 8
   };
-  uint64 min_threshold = 2;
+  ServicePermissions permissions = 1;
+  string resident_key = 2;
+  int32 algorithm = 3;
+  string authentication_attachment = 4;
 }

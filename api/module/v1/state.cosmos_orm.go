@@ -11,12 +11,14 @@ import (
 
 type ServiceRecordTable interface {
 	Insert(ctx context.Context, serviceRecord *ServiceRecord) error
+	InsertReturningId(ctx context.Context, serviceRecord *ServiceRecord) (uint64, error)
+	LastInsertedSequence(ctx context.Context) (uint64, error)
 	Update(ctx context.Context, serviceRecord *ServiceRecord) error
 	Save(ctx context.Context, serviceRecord *ServiceRecord) error
 	Delete(ctx context.Context, serviceRecord *ServiceRecord) error
-	Has(ctx context.Context, did string, origin string) (found bool, err error)
+	Has(ctx context.Context, id uint64) (found bool, err error)
 	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
-	Get(ctx context.Context, did string, origin string) (*ServiceRecord, error)
+	Get(ctx context.Context, id uint64) (*ServiceRecord, error)
 	HasByOrigin(ctx context.Context, origin string) (found bool, err error)
 	// GetByOrigin returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
 	GetByOrigin(ctx context.Context, origin string) (*ServiceRecord, error)
@@ -51,23 +53,18 @@ type ServiceRecordIndexKey interface {
 }
 
 // primary key starting index..
-type ServiceRecordPrimaryKey = ServiceRecordDidOriginIndexKey
+type ServiceRecordPrimaryKey = ServiceRecordIdIndexKey
 
-type ServiceRecordDidOriginIndexKey struct {
+type ServiceRecordIdIndexKey struct {
 	vs []interface{}
 }
 
-func (x ServiceRecordDidOriginIndexKey) id() uint32             { return 0 }
-func (x ServiceRecordDidOriginIndexKey) values() []interface{}  { return x.vs }
-func (x ServiceRecordDidOriginIndexKey) serviceRecordIndexKey() {}
+func (x ServiceRecordIdIndexKey) id() uint32             { return 0 }
+func (x ServiceRecordIdIndexKey) values() []interface{}  { return x.vs }
+func (x ServiceRecordIdIndexKey) serviceRecordIndexKey() {}
 
-func (this ServiceRecordDidOriginIndexKey) WithDid(did string) ServiceRecordDidOriginIndexKey {
-	this.vs = []interface{}{did}
-	return this
-}
-
-func (this ServiceRecordDidOriginIndexKey) WithDidOrigin(did string, origin string) ServiceRecordDidOriginIndexKey {
-	this.vs = []interface{}{did, origin}
+func (this ServiceRecordIdIndexKey) WithId(id uint64) ServiceRecordIdIndexKey {
+	this.vs = []interface{}{id}
 	return this
 }
 
@@ -134,7 +131,7 @@ func (this ServiceRecordOriginOwnerIndexKey) WithOriginOwner(origin string, owne
 }
 
 type serviceRecordTable struct {
-	table ormtable.Table
+	table ormtable.AutoIncrementTable
 }
 
 func (this serviceRecordTable) Insert(ctx context.Context, serviceRecord *ServiceRecord) error {
@@ -153,13 +150,21 @@ func (this serviceRecordTable) Delete(ctx context.Context, serviceRecord *Servic
 	return this.table.Delete(ctx, serviceRecord)
 }
 
-func (this serviceRecordTable) Has(ctx context.Context, did string, origin string) (found bool, err error) {
-	return this.table.PrimaryKey().Has(ctx, did, origin)
+func (this serviceRecordTable) InsertReturningId(ctx context.Context, serviceRecord *ServiceRecord) (uint64, error) {
+	return this.table.InsertReturningPKey(ctx, serviceRecord)
 }
 
-func (this serviceRecordTable) Get(ctx context.Context, did string, origin string) (*ServiceRecord, error) {
+func (this serviceRecordTable) LastInsertedSequence(ctx context.Context) (uint64, error) {
+	return this.table.LastInsertedSequence(ctx)
+}
+
+func (this serviceRecordTable) Has(ctx context.Context, id uint64) (found bool, err error) {
+	return this.table.PrimaryKey().Has(ctx, id)
+}
+
+func (this serviceRecordTable) Get(ctx context.Context, id uint64) (*ServiceRecord, error) {
 	var serviceRecord ServiceRecord
-	found, err := this.table.PrimaryKey().Get(ctx, &serviceRecord, did, origin)
+	found, err := this.table.PrimaryKey().Get(ctx, &serviceRecord, id)
 	if err != nil {
 		return nil, err
 	}
@@ -260,17 +265,19 @@ func NewServiceRecordTable(db ormtable.Schema) (ServiceRecordTable, error) {
 	if table == nil {
 		return nil, ormerrors.TableNotFound.Wrap(string((&ServiceRecord{}).ProtoReflect().Descriptor().FullName()))
 	}
-	return serviceRecordTable{table}, nil
+	return serviceRecordTable{table.(ormtable.AutoIncrementTable)}, nil
 }
 
 type UserProfileTable interface {
 	Insert(ctx context.Context, userProfile *UserProfile) error
+	InsertReturningId(ctx context.Context, userProfile *UserProfile) (uint64, error)
+	LastInsertedSequence(ctx context.Context) (uint64, error)
 	Update(ctx context.Context, userProfile *UserProfile) error
 	Save(ctx context.Context, userProfile *UserProfile) error
 	Delete(ctx context.Context, userProfile *UserProfile) error
-	Has(ctx context.Context, did string, origin string, handle string) (found bool, err error)
+	Has(ctx context.Context, id uint64) (found bool, err error)
 	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
-	Get(ctx context.Context, did string, origin string, handle string) (*UserProfile, error)
+	Get(ctx context.Context, id uint64) (*UserProfile, error)
 	HasByOriginHandle(ctx context.Context, origin string, handle string) (found bool, err error)
 	// GetByOriginHandle returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
 	GetByOriginHandle(ctx context.Context, origin string, handle string) (*UserProfile, error)
@@ -299,28 +306,18 @@ type UserProfileIndexKey interface {
 }
 
 // primary key starting index..
-type UserProfilePrimaryKey = UserProfileDidOriginHandleIndexKey
+type UserProfilePrimaryKey = UserProfileIdIndexKey
 
-type UserProfileDidOriginHandleIndexKey struct {
+type UserProfileIdIndexKey struct {
 	vs []interface{}
 }
 
-func (x UserProfileDidOriginHandleIndexKey) id() uint32            { return 0 }
-func (x UserProfileDidOriginHandleIndexKey) values() []interface{} { return x.vs }
-func (x UserProfileDidOriginHandleIndexKey) userProfileIndexKey()  {}
+func (x UserProfileIdIndexKey) id() uint32            { return 0 }
+func (x UserProfileIdIndexKey) values() []interface{} { return x.vs }
+func (x UserProfileIdIndexKey) userProfileIndexKey()  {}
 
-func (this UserProfileDidOriginHandleIndexKey) WithDid(did string) UserProfileDidOriginHandleIndexKey {
-	this.vs = []interface{}{did}
-	return this
-}
-
-func (this UserProfileDidOriginHandleIndexKey) WithDidOrigin(did string, origin string) UserProfileDidOriginHandleIndexKey {
-	this.vs = []interface{}{did, origin}
-	return this
-}
-
-func (this UserProfileDidOriginHandleIndexKey) WithDidOriginHandle(did string, origin string, handle string) UserProfileDidOriginHandleIndexKey {
-	this.vs = []interface{}{did, origin, handle}
+func (this UserProfileIdIndexKey) WithId(id uint64) UserProfileIdIndexKey {
+	this.vs = []interface{}{id}
 	return this
 }
 
@@ -356,7 +353,7 @@ func (this UserProfileOriginHandleIndexKey) WithOriginHandle(origin string, hand
 }
 
 type userProfileTable struct {
-	table ormtable.Table
+	table ormtable.AutoIncrementTable
 }
 
 func (this userProfileTable) Insert(ctx context.Context, userProfile *UserProfile) error {
@@ -375,13 +372,21 @@ func (this userProfileTable) Delete(ctx context.Context, userProfile *UserProfil
 	return this.table.Delete(ctx, userProfile)
 }
 
-func (this userProfileTable) Has(ctx context.Context, did string, origin string, handle string) (found bool, err error) {
-	return this.table.PrimaryKey().Has(ctx, did, origin, handle)
+func (this userProfileTable) InsertReturningId(ctx context.Context, userProfile *UserProfile) (uint64, error) {
+	return this.table.InsertReturningPKey(ctx, userProfile)
 }
 
-func (this userProfileTable) Get(ctx context.Context, did string, origin string, handle string) (*UserProfile, error) {
+func (this userProfileTable) LastInsertedSequence(ctx context.Context) (uint64, error) {
+	return this.table.LastInsertedSequence(ctx)
+}
+
+func (this userProfileTable) Has(ctx context.Context, id uint64) (found bool, err error) {
+	return this.table.PrimaryKey().Has(ctx, id)
+}
+
+func (this userProfileTable) Get(ctx context.Context, id uint64) (*UserProfile, error) {
 	var userProfile UserProfile
-	found, err := this.table.PrimaryKey().Get(ctx, &userProfile, did, origin, handle)
+	found, err := this.table.PrimaryKey().Get(ctx, &userProfile, id)
 	if err != nil {
 		return nil, err
 	}
@@ -440,7 +445,7 @@ func NewUserProfileTable(db ormtable.Schema) (UserProfileTable, error) {
 	if table == nil {
 		return nil, ormerrors.TableNotFound.Wrap(string((&UserProfile{}).ProtoReflect().Descriptor().FullName()))
 	}
-	return userProfileTable{table}, nil
+	return userProfileTable{table.(ormtable.AutoIncrementTable)}, nil
 }
 
 type ResourceTable interface {

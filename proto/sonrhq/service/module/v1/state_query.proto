@@ -57,10 +57,8 @@ service StateQueryService {
 
 // GetServiceRecordRequest is the StateQuery/GetServiceRecordRequest request type.
 message GetServiceRecordRequest {
-  // did specifies the value of the did field in the primary key.
-  string did = 1;
-  // origin specifies the value of the origin field in the primary key.
-  string origin = 2;
+  // id specifies the value of the id field in the primary key.
+  uint64 id = 1;
 }
 
 // GetServiceRecordResponse is the StateQuery/GetServiceRecordResponse response type.
@@ -107,8 +105,8 @@ message ListServiceRecordRequest {
   message IndexKey {
     // key specifies the index key value.
     oneof key {
-      // did_origin specifies the value of the DidOrigin index key to use in the query.
-      DidOrigin did_origin = 1;
+      // id specifies the value of the Id index key to use in the query.
+      Id id = 1;
       // origin specifies the value of the Origin index key to use in the query.
       Origin origin = 2;
       // owner specifies the value of the Owner index key to use in the query.
@@ -119,13 +117,10 @@ message ListServiceRecordRequest {
       OriginOwner origin_owner = 5;
     }
     
-    message DidOrigin {
-      // did is the value of the did field in the index.
+    message Id {
+      // id is the value of the id field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
-      optional string did = 1;
-      // origin is the value of the origin field in the index.
-      // It can be omitted to query for all valid values of that field in this segment of the index.
-      optional string origin = 2;
+      optional uint64 id = 1;
     }
     
     message Origin {
@@ -191,12 +186,8 @@ message ListServiceRecordResponse {
 
 // GetUserProfileRequest is the StateQuery/GetUserProfileRequest request type.
 message GetUserProfileRequest {
-  // did specifies the value of the did field in the primary key.
-  string did = 1;
-  // origin specifies the value of the origin field in the primary key.
-  string origin = 2;
-  // handle specifies the value of the handle field in the primary key.
-  string handle = 3;
+  // id specifies the value of the id field in the primary key.
+  uint64 id = 1;
 }
 
 // GetUserProfileResponse is the StateQuery/GetUserProfileResponse response type.
@@ -222,24 +213,18 @@ message ListUserProfileRequest {
   message IndexKey {
     // key specifies the index key value.
     oneof key {
-      // did_origin_handle specifies the value of the DidOriginHandle index key to use in the query.
-      DidOriginHandle did_origin_handle = 1;
+      // id specifies the value of the Id index key to use in the query.
+      Id id = 1;
       // origin specifies the value of the Origin index key to use in the query.
       Origin origin = 2;
       // origin_handle specifies the value of the OriginHandle index key to use in the query.
       OriginHandle origin_handle = 3;
     }
     
-    message DidOriginHandle {
-      // did is the value of the did field in the index.
+    message Id {
+      // id is the value of the id field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
-      optional string did = 1;
-      // origin is the value of the origin field in the index.
-      // It can be omitted to query for all valid values of that field in this segment of the index.
-      optional string origin = 2;
-      // handle is the value of the handle field in the index.
-      // It can be omitted to query for all valid values of that field in this segment of the index.
-      optional string handle = 3;
+      optional uint64 id = 1;
     }
     
     message Origin {

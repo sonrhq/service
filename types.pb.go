@@ -5,7 +5,6 @@ package service
 
 import (
 	fmt "fmt"
-	_ "github.com/cosmos/cosmos-proto"
 	_ "github.com/cosmos/cosmos-sdk/types/tx/amino"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	proto "github.com/cosmos/gogoproto/proto"
@@ -62,66 +61,8 @@ func (m *Params) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Params proto.InternalMessageInfo
 
-// Counter defines a counter object.
-// It is used only for genesis purposes. Collections does not need to use it.
-type Counter struct {
-	// count defines the count of the counter.
-	Count uint64 `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
-	// address defines the address that is associated with the count.
-	Address string `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
-}
-
-func (m *Counter) Reset()         { *m = Counter{} }
-func (m *Counter) String() string { return proto.CompactTextString(m) }
-func (*Counter) ProtoMessage()    {}
-func (*Counter) Descriptor() ([]byte, []int) {
-	return fileDescriptor_b8ba69a8b767ef38, []int{1}
-}
-func (m *Counter) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *Counter) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_Counter.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *Counter) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Counter.Merge(m, src)
-}
-func (m *Counter) XXX_Size() int {
-	return m.Size()
-}
-func (m *Counter) XXX_DiscardUnknown() {
-	xxx_messageInfo_Counter.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Counter proto.InternalMessageInfo
-
-func (m *Counter) GetCount() uint64 {
-	if m != nil {
-		return m.Count
-	}
-	return 0
-}
-
-func (m *Counter) GetAddress() string {
-	if m != nil {
-		return m.Address
-	}
-	return ""
-}
-
 // GenesisState is the state that must be provided at genesis.
 type GenesisState struct {
-	// counter defines the counter object.
-	Counters []Counter `protobuf:"bytes,1,rep,name=counters,proto3" json:"counters"`
 	// params defines all the parameters of the module.
 	Params Params `protobuf:"bytes,2,opt,name=params,proto3" json:"params"`
 }
@@ -130,7 +71,7 @@ func (m *GenesisState) Reset()         { *m = GenesisState{} }
 func (m *GenesisState) String() string { return proto.CompactTextString(m) }
 func (*GenesisState) ProtoMessage()    {}
 func (*GenesisState) Descriptor() ([]byte, []int) {
-	return fileDescriptor_b8ba69a8b767ef38, []int{2}
+	return fileDescriptor_b8ba69a8b767ef38, []int{1}
 }
 func (m *GenesisState) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -159,13 +100,6 @@ func (m *GenesisState) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GenesisState proto.InternalMessageInfo
 
-func (m *GenesisState) GetCounters() []Counter {
-	if m != nil {
-		return m.Counters
-	}
-	return nil
-}
-
 func (m *GenesisState) GetParams() Params {
 	if m != nil {
 		return m.Params
@@ -175,35 +109,27 @@ func (m *GenesisState) GetParams() Params {
 
 func init() {
 	proto.RegisterType((*Params)(nil), "sonrhq.service.v1.Params")
-	proto.RegisterType((*Counter)(nil), "sonrhq.service.v1.Counter")
 	proto.RegisterType((*GenesisState)(nil), "sonrhq.service.v1.GenesisState")
 }
 
 func init() { proto.RegisterFile("sonrhq/service/v1/types.proto", fileDescriptor_b8ba69a8b767ef38) }
 
 var fileDescriptor_b8ba69a8b767ef38 = []byte{
-	// 321 bytes of a gzipped FileDescriptorProto
+	// 210 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x2d, 0xce, 0xcf, 0x2b,
 	0xca, 0x28, 0xd4, 0x2f, 0x4e, 0x2d, 0x2a, 0xcb, 0x4c, 0x4e, 0xd5, 0x2f, 0x33, 0xd4, 0x2f, 0xa9,
 	0x2c, 0x48, 0x2d, 0xd6, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x12, 0x84, 0x48, 0xeb, 0x41, 0xa5,
 	0xf5, 0xca, 0x0c, 0xa5, 0x04, 0x13, 0x73, 0x33, 0xf3, 0xf2, 0xf5, 0xc1, 0x24, 0x44, 0x95, 0x94,
-	0x64, 0x72, 0x7e, 0x71, 0x6e, 0x7e, 0x71, 0x3c, 0x98, 0xa7, 0x0f, 0xe1, 0x40, 0xa5, 0x44, 0xd2,
-	0xf3, 0xd3, 0xf3, 0x21, 0xe2, 0x20, 0x16, 0x44, 0x54, 0x49, 0x85, 0x8b, 0x2d, 0x20, 0xb1, 0x28,
-	0x31, 0xb7, 0xd8, 0x4a, 0xaa, 0xeb, 0xf9, 0x06, 0x2d, 0x51, 0x34, 0x47, 0x40, 0xe4, 0x94, 0x0a,
-	0xb8, 0xd8, 0x9d, 0xf3, 0x4b, 0xf3, 0x4a, 0x52, 0x8b, 0x84, 0x44, 0xb8, 0x58, 0x93, 0x41, 0x4c,
-	0x09, 0x46, 0x05, 0x46, 0x0d, 0x96, 0x20, 0x08, 0x47, 0xc8, 0x88, 0x8b, 0x3d, 0x31, 0x25, 0xa5,
-	0x28, 0xb5, 0xb8, 0x58, 0x82, 0x49, 0x81, 0x51, 0x83, 0xd3, 0x49, 0xe2, 0xd2, 0x16, 0x5d, 0x11,
-	0xa8, 0xfd, 0x8e, 0x10, 0x99, 0xe0, 0x92, 0xa2, 0xcc, 0xbc, 0xf4, 0x20, 0x98, 0x42, 0x2b, 0x69,
-	0x90, 0x85, 0x62, 0x68, 0x16, 0x42, 0xad, 0x51, 0xea, 0x67, 0xe4, 0xe2, 0x71, 0x4f, 0xcd, 0x4b,
-	0x2d, 0xce, 0x2c, 0x0e, 0x2e, 0x49, 0x2c, 0x49, 0x15, 0x72, 0xe4, 0xe2, 0x48, 0x86, 0xc8, 0x15,
-	0x4b, 0x30, 0x2a, 0x30, 0x6b, 0x70, 0x1b, 0x49, 0xe9, 0x61, 0x04, 0x89, 0x1e, 0x54, 0xbb, 0x13,
-	0xe7, 0x89, 0x7b, 0xf2, 0x0c, 0x2b, 0x9e, 0x6f, 0xd0, 0x62, 0x0c, 0x82, 0x6b, 0x13, 0xb2, 0xe1,
-	0x62, 0x2b, 0x00, 0xfb, 0x07, 0xec, 0x46, 0x6e, 0x23, 0x49, 0x2c, 0x06, 0x40, 0x3c, 0x8c, 0xac,
-	0x1f, 0xaa, 0xc7, 0xc9, 0xf8, 0xc4, 0x23, 0x39, 0xc6, 0x0b, 0x8f, 0xe4, 0x18, 0x1f, 0x3c, 0x92,
-	0x63, 0x9c, 0xf0, 0x58, 0x8e, 0xe1, 0xc2, 0x63, 0x39, 0x86, 0x1b, 0x8f, 0xe5, 0x18, 0xa2, 0x24,
-	0xd3, 0x33, 0x4b, 0x32, 0x4a, 0x93, 0xf4, 0x92, 0xf3, 0x73, 0xf5, 0x51, 0xbd, 0x93, 0xc4, 0x06,
-	0x0e, 0x65, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0x5c, 0xd4, 0x79, 0x63, 0xdd, 0x01, 0x00,
-	0x00,
+	0x48, 0x7a, 0x7e, 0x7a, 0x3e, 0x98, 0xa9, 0x0f, 0x62, 0x41, 0x44, 0x95, 0x54, 0xb8, 0xd8, 0x02,
+	0x12, 0x8b, 0x12, 0x73, 0x8b, 0xad, 0xa4, 0xba, 0x9e, 0x6f, 0xd0, 0x12, 0x45, 0xb3, 0x09, 0x22,
+	0xa7, 0xe4, 0xc3, 0xc5, 0xe3, 0x9e, 0x9a, 0x97, 0x5a, 0x9c, 0x59, 0x1c, 0x5c, 0x92, 0x58, 0x92,
+	0x2a, 0x64, 0xc3, 0xc5, 0x56, 0x00, 0x96, 0x91, 0x60, 0x52, 0x60, 0xd4, 0xe0, 0x36, 0x92, 0xd4,
+	0xc3, 0x70, 0x82, 0x1e, 0x44, 0xab, 0x13, 0xe7, 0x89, 0x7b, 0xf2, 0x0c, 0x2b, 0x9e, 0x6f, 0xd0,
+	0x62, 0x0c, 0x82, 0xea, 0x71, 0x32, 0x3e, 0xf1, 0x48, 0x8e, 0xf1, 0xc2, 0x23, 0x39, 0xc6, 0x07,
+	0x8f, 0xe4, 0x18, 0x27, 0x3c, 0x96, 0x63, 0xb8, 0xf0, 0x58, 0x8e, 0xe1, 0xc6, 0x63, 0x39, 0x86,
+	0x28, 0xc9, 0xf4, 0xcc, 0x92, 0x8c, 0xd2, 0x24, 0xbd, 0xe4, 0xfc, 0x5c, 0x7d, 0x54, 0x97, 0x24,
+	0xb1, 0x81, 0xdd, 0x6b, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0xe0, 0x89, 0xa5, 0x4a, 0x0c, 0x01,
+	0x00, 0x00,
 }
 
 func (m *Params) Marshal() (dAtA []byte, err error) {
@@ -226,41 +152,6 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	return len(dAtA) - i, nil
-}
-
-func (m *Counter) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *Counter) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *Counter) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Address) > 0 {
-		i -= len(m.Address)
-		copy(dAtA[i:], m.Address)
-		i = encodeVarintTypes(dAtA, i, uint64(len(m.Address)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if m.Count != 0 {
-		i = encodeVarintTypes(dAtA, i, uint64(m.Count))
-		i--
-		dAtA[i] = 0x8
-	}
 	return len(dAtA) - i, nil
 }
 
@@ -294,20 +185,6 @@ func (m *GenesisState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	}
 	i--
 	dAtA[i] = 0x12
-	if len(m.Counters) > 0 {
-		for iNdEx := len(m.Counters) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Counters[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintTypes(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0xa
-		}
-	}
 	return len(dAtA) - i, nil
 }
 
@@ -331,34 +208,12 @@ func (m *Params) Size() (n int) {
 	return n
 }
 
-func (m *Counter) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Count != 0 {
-		n += 1 + sovTypes(uint64(m.Count))
-	}
-	l = len(m.Address)
-	if l > 0 {
-		n += 1 + l + sovTypes(uint64(l))
-	}
-	return n
-}
-
 func (m *GenesisState) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if len(m.Counters) > 0 {
-		for _, e := range m.Counters {
-			l = e.Size()
-			n += 1 + l + sovTypes(uint64(l))
-		}
-	}
 	l = m.Params.Size()
 	n += 1 + l + sovTypes(uint64(l))
 	return n
@@ -420,107 +275,6 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *Counter) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTypes
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Counter: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Counter: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Count", wireType)
-			}
-			m.Count = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTypes
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Count |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTypes
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTypes
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTypes
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Address = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTypes(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTypes
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
 func (m *GenesisState) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -550,40 +304,6 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: GenesisState: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Counters", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTypes
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTypes
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTypes
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Counters = append(m.Counters, Counter{})
-			if err := m.Counters[len(m.Counters)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Params", wireType)
