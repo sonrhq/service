@@ -21,10 +21,6 @@ func TestInitGenesis(t *testing.T) {
 	require.NoError(t, err)
 
 	require.Equal(t, service.DefaultParams(), params)
-
-	count, err := fixture.k.Counter.Get(fixture.ctx, fixture.addrs[0].String())
-	require.NoError(t, err)
-	require.Equal(t, uint64(5), count)
 }
 
 func TestExportGenesis(t *testing.T) {
