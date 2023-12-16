@@ -69,4 +69,5 @@ lint:
 # test - runs all tests
 test:
     FROM +repo
+    COPY . .
 	RUN go test -v ./...
