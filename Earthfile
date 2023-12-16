@@ -55,7 +55,11 @@ generate:
     RUN sh ./scripts/protocgen-docs.sh
     SAVE ARTIFACT docs AS LOCAL docs
 
-
+# lint - lints the protobuf files
+lint:
+    LOCALLY
+    RUN make proto-format
+    RUN make proto-lint
 
 # test - runs all tests
 test:

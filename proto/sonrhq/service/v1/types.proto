@@ -7,16 +7,11 @@ import "gogoproto/gogo.proto";
 option go_package = "github.com/sonrhq/service";
 
 // Params defines the parameters of the module.
-message Params {
-  option (amino.name) = "sonrhq/service/Params";
-}
-
+message Params { option (amino.name) = "sonrhq/service/Params"; }
 
 // GenesisState is the state that must be provided at genesis.
 message GenesisState {
   // params defines all the parameters of the module.
-  Params params = 2 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+  Params params = 2
+      [ (gogoproto.nullable) = false, (amino.dont_omitempty) = true ];
 }
