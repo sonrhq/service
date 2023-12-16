@@ -1,0 +1,6 @@
+package keeper
+
+func GetRelayingPartyFromServiceRecord() {
+
+}
+

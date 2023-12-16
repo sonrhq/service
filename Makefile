@@ -32,7 +32,23 @@ proto-all:
 	mv ./sonrhq/service ./api
 	rm -rf ./sonrhq
 
+proto-swagger-gen:
+	@echo "Generating Protobuf Swagger"
+	@$(protoImage) sh ./scripts/protocgen-docs.sh
+
+proto-gen: proto-deps
+	@echo "Generating protobuf files..."
+	@$(protoImage) sh ./scripts/protocgen.sh
+	@go mod tidy
+
+proto-format:
+	@$(protoImage) find ./ -name "*.proto" -exec clang-format -i {} \;
+
+proto-lint:
+	@$(protoImage) buf lint proto/ --error-format=json
+
 .PHONY: proto-all proto-gen proto-format proto-lint
+
 
 #################
 ###  Linting  ###
