@@ -23,6 +23,14 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 			Service: servicev1.Msg_ServiceDesc.ServiceName,
 			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
 				{
+					RpcMethod: "IncrementCounter",
+					Use:       "counter [sender]",
+					Short:     "Increments the counter by 1 for the sender",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "sender"},
+					},
+				},
+				{
 					RpcMethod: "UpdateParams",
 					Skip:      true, // This is a authority gated tx, so we skip it.
 				},
