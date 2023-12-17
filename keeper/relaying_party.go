@@ -7,6 +7,8 @@ import (
 	"github.com/go-webauthn/webauthn/protocol/webauthncose"
 )
 
+// TODO: All methods inhereted by the service keeper to maintain session ctx
+
 // GenerateChallenge generates a new challenge for the registration/authentication process.
 func GenerateChallenge() {
 
