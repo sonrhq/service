@@ -44,7 +44,7 @@ func TestUpdateParams(t *testing.T) {
 
 	for _, tc := range testCases {
 		tc := tc
-		t.Run(tc.name, func(t *testing.T) {
+		t.Run(tc.name, func(_ *testing.T) {
 			_, err := f.msgServer.UpdateParams(f.ctx, tc.request)
 			if tc.expectErrMsg != "" {
 				require.Error(err)
