@@ -17,3 +17,13 @@ lint:
     - PACKAGE_VERSION_SUFFIX
     - RPC_REQUEST_STANDARD_NAME
     - ENUM_ZERO_VALUE_SUFFIX
+breaking:
+  use:
+    - FILE
+  except:
+    - RPC_NO_DELETE
+  ignore:
+    - buf.build/cosmos/cosmos-proto
+    - buf.build/cosmos/gogo-proto
+    - buf.build/googleapis/cosmos-sdk
+  ignore_unstable_packages: true
