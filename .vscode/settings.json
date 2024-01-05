@@ -18,5 +18,8 @@
 		"titleBar.inactiveBackground": "#cc829d99",
 		"titleBar.inactiveForeground": "#15202b99"
 	},
-	"peacock.color": "#cc829d"
+	"peacock.color": "#cc829d",
+	"files.exclude": {
+		"**/**.pb.gw.go": true,
+	},
 }
