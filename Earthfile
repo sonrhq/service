@@ -1,7 +1,7 @@
 VERSION 0.7
 PROJECT sonrhq/sonrd
 
-FROM golang:1.21-alpine3.17
+FROM golang:1.21.5-alpine
 RUN apk add --update --no-cache \
     bash \
     bash-completion \
@@ -59,6 +59,11 @@ generate:
     SAVE ARTIFACT proto AS LOCAL proto
     RUN sh ./scripts/protocgen-docs.sh
     SAVE ARTIFACT docs AS LOCAL docs
+
+# templates - generates all templates from templates
+templates:
+    LOCALLY
+    RUN templ generate
 
 # lint - lints the protobuf files
 lint:
